@@ -12,12 +12,3 @@ services:
       - .env
     restart: unless-stopped
 
-
-# Optionally, add a service for the vector database if you decide to run one separately (e.g., Weaviate)
-#   vector_db:
-#     image: weaviate/weaviate:latest
-#     ports:
-#       - "8080:8080"
-#     environment:
-#       - QUERY_DEFAULTS_LIMIT=20
-#       - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
