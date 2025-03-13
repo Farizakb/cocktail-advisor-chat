@@ -1,5 +1,5 @@
 # 🍹 Cocktail Advisor Chat 🗨️  
-A **FastAPI-based chat application** that integrates a **Hugging Face LLM** and **FAISS vector database** to provide **cocktail recommendations** and **ingredient-based searches** using **Retrieval-Augmented Generation (RAG)**.
+A **FastAPI-based chat application** that integrates a **OpenAI GPT-4 LLM** and **FAISS vector database** to provide **cocktail recommendations** and **ingredient-based searches** using **Retrieval-Augmented Generation (RAG)**.
 
 ---
 
@@ -84,6 +84,7 @@ docker-compose up
 
 
 
-Sample usage:
+# Sample usage:
 
-![Cocktail Advisor Chat](CocktailChat.png)
+![CocktailAdvisorChat](CocktailChat.png)
+
