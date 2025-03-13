@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/wh
 EXPOSE 8000
 
 # Command to run the application using uvicorn
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]

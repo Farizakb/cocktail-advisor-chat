@@ -2,7 +2,5 @@ fastapi
 uvicorn
 jinja2
 faiss-cpu
-sentence-transformers
-numpy<2
-transformers
-torch==2.0.1+cpu  # Smaller CPU version
+numpy
+openai

@@ -1,9 +1,20 @@
-from transformers import pipeline
+import openai
+import os
 
-# Load an LLM from Hugging Face
-llm_pipeline = pipeline("text-generation", model="tiiuae/falcon-7b-instruct")
+# Get OpenAI API Key
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-def ask_hf_llm(prompt: str) -> str:
-    """Query Hugging Face model for cocktail advice."""
-    response = llm_pipeline(prompt, max_length=150, do_sample=True)
-    return response[0]["generated_text"]
+# Set API key globally
+openai.api_key = OPENAI_API_KEY
+
+def ask_gpt(prompt: str) -> str:
+    """Send a query to OpenAI GPT-4 and return the response."""
+    response = openai.ChatCompletion.create(
+        model="gpt-3",
+        messages=[
+            {"role": "system", "content": "You are a cocktail expert."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.7
+    )
+    return response["choices"][0]["message"]["content"]

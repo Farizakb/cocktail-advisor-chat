@@ -1,16 +1,26 @@
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
-import json
+import openai
 import os
+import json
 
-# Load embedding model
-model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+# Load environment variables
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
+# Set API key globally
+openai.api_key = OPENAI_API_KEY
 
 # Path to FAISS index
 FAISS_INDEX_PATH = "faiss_index.bin"
 COCKTAILS_JSON = "cocktail_dataset.json"
+
+def embed_text(text: str) -> np.array:
+    """Converts text into an embedding using OpenAI's latest API."""
+    response = openai.embeddings.create(
+        model="text-embedding-ada-002",
+        input=[text]
+    )
+    return np.array(response.data[0].embedding, dtype=np.float32)
 
 class FaissIndex:
     def __init__(self):
@@ -24,7 +34,8 @@ class FaissIndex:
             with open(COCKTAILS_JSON, "r", encoding="utf-8") as file:
                 self.cocktail_data = json.load(file)
 
-            embeddings = np.array([model.encode(" ".join(c["ingredients"])) for c in self.cocktail_data], dtype=np.float32)
+            # Generate OpenAI embeddings for all cocktails
+            embeddings = np.array([embed_text(" ".join(c["ingredients"])) for c in self.cocktail_data], dtype=np.float32)
             self.index = faiss.IndexFlatL2(embeddings.shape[1])
             self.index.add(embeddings)
 
@@ -41,7 +52,7 @@ class FaissIndex:
         if self.index is None:
             self.index = faiss.read_index(FAISS_INDEX_PATH)
 
-        query_embedding = np.array([model.encode(query)], dtype=np.float32)
+        query_embedding = np.array([embed_text(query)], dtype=np.float32)
         distances, indices = self.index.search(query_embedding, k)
         
         results = []
