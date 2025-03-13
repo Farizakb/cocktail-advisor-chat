@@ -85,4 +85,5 @@ docker-compose up
 
 
 Sample usage:
-![alt text](image.png)
+
+![Cocktail Advisor Chat](CocktailChat.png)
